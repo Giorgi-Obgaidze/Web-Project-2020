@@ -7,7 +7,7 @@
         <div class = "header">
             <h1 style = "margin-left: 20vw;">Hi! &nbsp;</h1>
             <nav>
-                <a href="#">Sign in &nbsp;</a>
+                <a href="javascript:openSignInForm()">Sign in &nbsp;</a>
                 <h1>&nbsp; or &nbsp;</h1>
                 <a href="#">register</a>
             </nav>
@@ -16,7 +16,26 @@
         </div>
 
         <div class = "search">
-            <input class = "logo" type="image" src = "images/logo.jpg" alt = "cart">
+            <input class = "logo" type="image" src = "images/logo.jpg" alt = "logo">
+            <input class = "search__bar" type="text" placeholder="Search for Everything">
+            <button class = "search__button" type = "submit"> Search </button>
         </div>
+
+        <div class = "sign-in__popup" id = "sign-in">
+            <form class = "sign-in__container">
+                <h1>Sign In</h1>
+
+                <label for = "email">Email</label>
+                <input type = "text" placeholder="Your Email" name = "email" required>
+                
+                <label for = "pass">Password</label>
+                <input type = "password" placeholder="Your Password" name = "pass" required>
+
+                <button type = "submit" class = "sub_but">Sign In</button>
+                <button type = "submit" class = "can_but" onclick="closeSignInForm()">Close</button>
+            </form>
+        </div>
+
+        <script src="homepage.js"></script>
     </body>
 </html>
