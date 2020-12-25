@@ -1,15 +1,15 @@
 <html>
     <head>
         <title>buy one get one free</title>
-        <link rel = "stylesheet" href="styleHomepage.css">
+        <link rel = "stylesheet" href="styleHeader.css">
     </head>
     <body>
         <div class = "header">
             <h1 style = "margin-left: 20vw;">Hi! &nbsp;</h1>
             <nav>
-                <a href="javascript:openSignInForm()">Sign in &nbsp;</a>
+                <a href="javascript:openSignInForm('sign-in')">Sign in &nbsp;</a>
                 <h1>&nbsp; or &nbsp;</h1>
-                <a href="#">register</a>
+                <a href="javascript:openSignInForm('sign-up')">register</a>
             </nav>
             <input class = "messageIcon" type="image" src = "images/message.png" alt = "messages">
             <input class = "cartIcon" type="image" src = "images/cart.png" alt = "cart">
@@ -22,8 +22,11 @@
         </div>
 
         <div class = "sign-in__popup" id = "sign-in">
-            <form class = "sign-in__container">
-                <h1>Sign In</h1>
+            <form class = "sign-in__container" id = "sign-frame">
+                <h1 id = "title" style = "color:blue; font-family: Verdana; font-size: 150%;"></h1>
+                
+                <label for = "username" id = "usernameLabel">Username</label>
+                <input type = "text" placeholder="Your Username" id = "username" name = "username" required>
 
                 <label for = "email">Email</label>
                 <input type = "text" placeholder="Your Email" name = "email" required>
@@ -36,6 +39,6 @@
             </form>
         </div>
 
-        <script src="homepage.js"></script>
+        <script src="header.js"></script>
     </body>
 </html>

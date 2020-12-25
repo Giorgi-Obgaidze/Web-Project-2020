@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>List product</title>
+        <link rel = "stylesheet" href="styleAddProductPage.css">
+        <script>
+            function includeHTML() {
+                var z, i, elmnt, file, xhttp;
+                z = document.getElementsByTagName("*");
+                for (i = 0; i < z.length; i++) {
+                    elmnt = z[i];
+                    file = elmnt.getAttribute("header-html");
+                    if (file) {
+                    xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        elmnt.removeAttribute("header-html");
+                        includeHTML();
+                        }
+                    }      
+                    xhttp.open("GET", file, true);
+                    xhttp.send();
+                    return;
+                    }
+                }
+                };
+        </script>
+        <script src="addProductPage.js"></script>
+
+
+    </head>
+    <body>
+        
+        <div id = "category-page">
+            <div header-html="header.html"></div>
+            <script>
+                includeHTML();
+            </script>
+            <h1 id = "instruction">Please select the type of your Product</h1>
+        </div>
+
+
+        <script src="header.js"></script>
+    </body>
+</html>

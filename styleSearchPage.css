@@ -1,0 +1,43 @@
+.searchPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#product-list{
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+    width: 50%;
+    
+}
+
+.product{
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.pImg{
+    float: left;
+    margin-right: 15px;
+}
+
+.pImg img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.pName {
+    font-weight: bold;
+
+}
+
+.pPrice{
+    color: rgb(82, 79, 79);
+    font-weight: bold;
+
+}
