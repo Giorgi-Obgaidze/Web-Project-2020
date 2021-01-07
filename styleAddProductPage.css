@@ -18,12 +18,19 @@
 }
 
 .cat-button{
-    width: 8%;
+    display: inline-block;
+    width: 10%;
+    font-size: 1vw;
     border: 1px solid black;
     border-radius: 10px;
     cursor: pointer;
     background-color: white;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
+
 
 .cat-button:hover{
     background-color: rgb(243, 244, 247);
@@ -31,4 +38,89 @@
 #instruction{
     margin-left: auto;
     margin-right: auto;
+}
+
+
+#productForm__window{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items:center;
+}
+
+#product__form{
+    width: 70%;
+    height: 80%;
+    left: 50%;
+    top: 10%;
+    margin-left: -35%;
+    position: absolute;
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding-left: 1vw;
+    justify-content: center;
+}
+
+.buying__option{
+    display: flex;
+    overflow: hidden;
+    width: 25%;
+}
+
+.buying__option input{
+    position: absolute !important;
+    clip: rect(0,0,0,0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+
+.buying__option label{
+    background-color: #e9f0e4;
+    font-size: 1.25vw;
+    width: 100%;
+    /* line-height: 1; */
+    text-align: center;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.1s ease-in-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.buying__option label:hover{
+    cursor: pointer;
+}
+
+.buying__option input:checked + label{
+    background-color: #363fec;
+    box-shadow: none;
+}
+
+.buying__option label:first-of-type{
+    border-radius: 4px 0 0 4px;
+}
+
+
+.buying__option label:last-of-type{
+    border-radius: 0 4px 4px 0;
+}
+
+#description{
+    width: 80%;
+    height: 20%;
+}
+
+#price{
+    width: 10%;
 }
