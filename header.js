@@ -22,6 +22,37 @@ function openSignInForm(buttonId){
     }
 }
 
+function wellcomeUser(){
+    var user = firebase.auth().currentUser; 
+   
+    if(user != null){
+        var greetUser =  document.getElementById("curr_user")
+        greetUser.innerHTML = "Hi " + user.displayName
+        var hoverContainer =  document.getElementById("hoverContainer")
+    }
+    document.getElementById("hi").style.display = "none"
+    document.getElementById("signin").style.display = "none"
+    document.getElementById("or").style.display = "none"
+    document.getElementById("register").style.display = "none"
+    hoverContainer.style.display = "inline-block"
+    
+    // let navBar = document.getElementById("nav_bar")
+    // let hoverWindowContainer = document.createElement("div")
+    // let hoverWindow = document.createElement("span")
+    // let logoutButton = document.createElement("button")
+    // logoutButton.type = "button"
+    // logoutButton.innerHTML = "Log Out"
+    // logoutButton.onclick = signOutFunction
+    // hoverWindow.classList.add("hover_window")
+    // hoverWindow.appendChild(logoutButton)
+    // hoverWindowContainer.classList.add("hover_container")
+    // hoverWindowContainer.setAttribute("id", "hoverContainer")
+    // hoverWindowContainer.innerHTML = "Hi " + user.displayName
+    // hoverWindowContainer.appendChild(hoverWindow)
+    // navBar.appendChild(hoverWindowContainer)
+}
+
+
 function signInFunction(){
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
@@ -29,7 +60,11 @@ function signInFunction(){
     if(email != "" && password != ""){
         var trySignIn = firebase.auth().signInWithEmailAndPassword(email, password)
 
-        trySignIn.catch(function(error){
+        trySignIn.then(() => {
+            wellcomeUser()
+            closeSignInForm()
+        })
+        .catch(function(error){
             var warning = error.code
             var errorMessage = error.message
             console.log(warning)
@@ -42,7 +77,44 @@ function signInFunction(){
 }
 
 function signUpFunction(){
-    console.log("sign up")
+    var username = document.getElementById("username").value
+    var email = document.getElementById("email").value
+    var password = document.getElementById("password").value
+
+    if(email != "" && password != "" && username != ""){
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+            return user.user
+            .updateProfile({
+                displayName: username
+            }).then(() => {
+                closeSignInForm()
+                wellcomeUser()
+            })
+            .catch(function(error){
+                var errorMessage = error.message;
+                window.alert(errorMessage);
+            });
+        }).catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            window.alert(errorMessage);
+            console.log(errorCode);
+        });
+    }
+}
+
+function signOutFunction(){
+    firebase.auth().signOut().then(() => {
+        document.getElementById("hi").style.display = "block"
+        document.getElementById("signin").style.display = "block"
+        document.getElementById("or").style.display = "block"
+        document.getElementById("register").style.display = "block"
+        document.getElementById("hoverContainer").style.display = "none"
+      }).catch((error) => {
+            var errorMessage = error.message;
+            window.alert(errorMessage);
+      });
 }
 
 

@@ -154,3 +154,31 @@ h1{
 .can_but:hover{
     opacity: 1;
 }
+
+.hover_container{
+    position: relative;
+    display: none;
+    padding: 5px 10px 0px 10vh;
+    
+}
+
+.hover_container .hover_window{
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22vh;
+    height: 15vh;
+    top: 100%;
+    left: 50%;
+    margin-left: -5vh;
+    background-color: rgb(202, 129, 129);
+    border-radius: 15px;
+    position: absolute;
+    z-index: 1;
+}
+
+.hover_container:hover .hover_window{
+    visibility: visible;
+    
+}

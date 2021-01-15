@@ -11,10 +11,16 @@
         <div class = "header">
            
             <nav id = "nav_bar">
-                <h1 style = "margin-left: 20vw;">Hi! &nbsp;</h1>
-                <a href="javascript:openSignInForm('sign-in')">Sign in &nbsp;</a>
-                <h1>&nbsp; or &nbsp;</h1>
-                <a href="javascript:openSignInForm('sign-up')">register</a>
+                <h1 style = "margin-left: 20vw;" id = "hi">Hi! &nbsp;</h1>
+                <a href="javascript:openSignInForm('sign-in')" id = "signin">Sign in &nbsp;</a>
+                <h1 id = "or">&nbsp; or &nbsp;</h1>
+                <a href="javascript:openSignInForm('sign-up')" id = "register">register</a>
+                <div class = "hover_container" id = "hoverContainer">
+                    <h1 id = "curr_user"></h1>
+                    <span class = "hover_window">
+                        <button type="button" onclick="signOutFunction()">Log Out</button>
+                    </span>
+                </div>
             </nav>
             <input class = "messageIcon" type="image" src = "images/message.png" alt = "messages">
             <input class = "cartIcon" type="image" src = "images/cart.png" alt = "cart">
