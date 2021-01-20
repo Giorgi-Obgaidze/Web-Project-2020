@@ -2,6 +2,14 @@
     <head>
         <title>Search Item</title>
         <link rel = "stylesheet" href="styleSearchPage.css">
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="index.js"></script>
+        <script src="header.js"></script>
+        <script src="searchPage.js"></script>
         <script>
             function includeHTML() {
             var z, i, elmnt, file, xhttp;
@@ -27,53 +35,13 @@
             };
         </script>
 
-        <script>
-            var pList = [
-                {name: "Item A", img:"RTX-3070.jpg", price: 690.9,
-                desc: "2k gaming"},
-                {name: "Item B", img:"RTX-3080.png", price: 1200.9,
-                desc: "4k gaming"},
-                {name: "Item C", img:"RTX-3090.jpg", price: 12300.45,
-                desc: "8k gaming"},
-                ];
-                // $(function(){
-                //     $("#header").load("header.html"); 
-                // });
-            window.addEventListener("DOMContentLoaded", function () {
-                let df = new DocumentFragment()
-
-                function create(tag, htmlText, className) {
-                    let elem = document.createElement(tag);
-                    elem.innerHTML = htmlText;
-                    elem.classList.add(className);
-                    return elem;    
-                };
-
-                pList.forEach(p => {
-                    let segment = document.createElement("div");
-                    segment.classList.add("product")
-                    df.appendChild(segment)
-
-                    segment.appendChild(create("div", "<img src ='images/"+p.img+"'>", "pImg"));
-                    segment.appendChild(create("div", p.name, "pName"));
-                    segment.appendChild(create("div", "$" + p.price.toFixed(2), "pPrice"));
-                    segment.appendChild(create("div", p.desc, "pImg"));
-                });
-
-                document.getElementById("product-list").appendChild(df);
-
-
-            });
-
-
-
-
-        </script>
+        
     </head>
     <body>
         <div header-html="header.html"></div>
         <script>
             includeHTML();
+            checkUserStatus();
         </script>
         <!-- <include src="./header.html"></include>
         <div id = "header"></div> -->
@@ -82,6 +50,6 @@
         </div>
 
 
-        <script src="header.js"></script>
+        <!-- <script src="header.js"></script> -->
     </body>
 </html>

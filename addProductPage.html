@@ -2,6 +2,14 @@
     <head>
         <title>List product</title>
         <link rel = "stylesheet" href="styleAddProductPage.css">
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="index.js"></script>
+        <script src="header.js"></script>
+        <script src="addProductPage.js"></script>
         <script>
             function includeHTML() {
                 var z, i, elmnt, file, xhttp;
@@ -36,6 +44,7 @@
             <div header-html="header.html"></div>
             <script>
                 includeHTML();
+                checkUserStatus();
             </script>
             <h1 id = "instruction">Please select the type of your Product</h1>
         </div>
@@ -50,8 +59,10 @@
                 </div>
             </div>
         </div>
-
-        <script src="header.js"></script>
-        <script src="addProductPage.js"></script>
+        <!-- <script>bla();</script> -->
+        <!-- <script>
+            checkUserStatus()
+        </script> -->
+        
     </body>
 </html>

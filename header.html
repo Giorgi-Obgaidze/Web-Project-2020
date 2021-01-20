@@ -6,8 +6,12 @@
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="index.js"></script>
+        <script src="header.js"></script>
     </head>
     <body>
+        <!-- <script>checkUserStatus()</script> -->
         <div class = "header">
            
             <nav id = "nav_bar">
@@ -22,14 +26,17 @@
                     </span>
                 </div>
             </nav>
+            <a href="addProductPage.html" id = "sell">Sell</a>
             <input class = "messageIcon" type="image" src = "images/message.png" alt = "messages">
             <input class = "cartIcon" type="image" src = "images/cart.png" alt = "cart">
         </div>
 
         <div class = "search">
             <input class = "logo" type="image" src = "images/logo.jpg" alt = "logo">
-            <input class = "search__bar" type="text" placeholder="Search for Everything">
-            <button class = "search__button" type = "submit"> Search </button>
+            <form action="searchPage.html" method="GET" id = "search__form">
+                <input class = "search__bar" id = "searchText" type="text" name = "userInput" placeholder="Search for Everything"/>
+                <button class = "search__button" id = "searchButton" type = "submit"> Search </button>
+            </form>
         </div>
 
         <div class = "sign-in__popup" id = "sign-in">
@@ -50,20 +57,19 @@
             </form>
         </div>
 
+        <script>checkUserStatus()</script>
         
-        <script src="header.js"></script>
-        <script src="index.js"></script>
-        <script>
+        <!-- <script>
+            checkUserStatus()
             firebase.auth().signOut().then(() => {
                 console.log("sign out")
             }).catch((error) => {
                 console.log(error.message)
             });
-        </script>
+        </script> -->
         <script>
            firebase.auth().onAuthStateChanged(function(user){
             if(user){
-                //document.getElementById("nav_bar").style.display = "none"
                 console.log("congrats test");
             }
         });

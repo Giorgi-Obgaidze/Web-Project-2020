@@ -64,15 +64,20 @@
     background-color: white;
     flex-direction: column;
     align-items: flex-start;
+    
     gap: 15px;
     padding-left: 1vw;
-    justify-content: center;
+    overflow-y:auto;
+    /* justify-content: center; */
 }
 
 .buying__option{
     display: flex;
     overflow: hidden;
     width: 25%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    flex-shrink: 0;
 }
 
 .buying__option input{
@@ -119,8 +124,37 @@
 #description{
     width: 80%;
     height: 20%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    flex-shrink: 0;
 }
 
 #price{
     width: 10%;
+    margin-bottom: 4vh;
+}
+
+#img_container{
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 0%;
+    margin-right: 2%;
+    width: 98%;
+    height: 15%;
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    border: 1px solid rgba(128, 124, 124, 0.2);
+    flex-shrink: 0;
+}
+
+.productImg{
+    height: 100%;
+}
+
+.but_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1vh;
 }

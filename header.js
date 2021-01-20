@@ -1,4 +1,25 @@
 
+//window.onload = checkUserStatus()
+
+
+function checkUserStatus(){
+    console.log("check user")
+    firebase.auth().onAuthStateChanged(function(user){
+        if(user){
+            wellcomeUser()
+            console.log("user still here");
+        }else{
+            wellcomeNewUser()
+            console.log("user not here");
+        }
+    });
+    //var user = firebase.auth().currentUser; 
+    
+   // if(user != null){
+        //console.log("user in")
+        
+    //}
+}
 
 function closeSignInForm(){
     document.getElementById("sign-in").style.display = "none"
@@ -24,17 +45,19 @@ function openSignInForm(buttonId){
 
 function wellcomeUser(){
     var user = firebase.auth().currentUser; 
-   
+    
     if(user != null){
         var greetUser =  document.getElementById("curr_user")
         greetUser.innerHTML = "Hi " + user.displayName
         var hoverContainer =  document.getElementById("hoverContainer")
+        document.getElementById("hi").style.display = "none"
+        document.getElementById("signin").style.display = "none"
+        document.getElementById("or").style.display = "none"
+        document.getElementById("register").style.display = "none"
+        hoverContainer.style.display = "inline-block"
+        document.getElementById("sell").style.display = "block"
     }
-    document.getElementById("hi").style.display = "none"
-    document.getElementById("signin").style.display = "none"
-    document.getElementById("or").style.display = "none"
-    document.getElementById("register").style.display = "none"
-    hoverContainer.style.display = "inline-block"
+    
     
     // let navBar = document.getElementById("nav_bar")
     // let hoverWindowContainer = document.createElement("div")
@@ -50,6 +73,19 @@ function wellcomeUser(){
     // hoverWindowContainer.innerHTML = "Hi " + user.displayName
     // hoverWindowContainer.appendChild(hoverWindow)
     // navBar.appendChild(hoverWindowContainer)
+}
+
+
+function wellcomeNewUser(){
+    //var greetUser =  document.getElementById("curr_user")
+    //greetUser.innerHTML = "Hi " + user.displayName
+    var hoverContainer =  document.getElementById("hoverContainer")
+    document.getElementById("hi").style.display = "block"
+    document.getElementById("signin").style.display = "block"
+    document.getElementById("or").style.display = "block"
+    document.getElementById("register").style.display = "block"
+    hoverContainer.style.display = "none"
+    document.getElementById("sell").style.display = "none"
 }
 
 
@@ -84,6 +120,13 @@ function signUpFunction(){
     if(email != "" && password != "" && username != ""){
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
+            var db = firebase.firestore();
+            db.collection("users").doc(user.user.uid).set({
+                myProducts: []
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
             return user.user
             .updateProfile({
                 displayName: username
@@ -101,6 +144,8 @@ function signUpFunction(){
             window.alert(errorMessage);
             console.log(errorCode);
         });
+
+
     }
 }
 
@@ -111,10 +156,10 @@ function signOutFunction(){
         document.getElementById("or").style.display = "block"
         document.getElementById("register").style.display = "block"
         document.getElementById("hoverContainer").style.display = "none"
+        document.getElementById("sell").style.display = "none"
       }).catch((error) => {
             var errorMessage = error.message;
             window.alert(errorMessage);
       });
 }
-
 
