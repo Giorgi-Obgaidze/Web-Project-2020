@@ -264,7 +264,7 @@ function uploadProcess(){
             console.log("start putting the Image");
             var promises = [];
             for(i = 0; i < images.length; i++){
-                var currpromise = new Promise(() => {
+                var currpromise = new Promise((resolve, reject) => {
                 console.log("starting: " + i);
                 var uploadTask = firebase.storage().ref('Images/'+ productId + i + ".png").put(images[i]);
                 console.log("finish putting the Image");
@@ -281,8 +281,8 @@ function uploadProcess(){
                         my_product.update({
                             ImgUrls: firebase.firestore.FieldValue.arrayUnion(imgUrl)
                         });
-                        j++;
                         console.log("uraaaaaaaaa");
+                        resolve("done");
                     });
                     }
                 }            
@@ -290,8 +290,10 @@ function uploadProcess(){
             });
                 promises.push(currpromise);
             }
-            Promise.all(promises);
-            location.reload(true);
+            Promise.all(promises).then(function(val) {
+                console.log("reload my page" + val);
+                location.reload(true);
+            });
         }).catch(function(error) {
             console.error("Error adding document: ", error);
         });

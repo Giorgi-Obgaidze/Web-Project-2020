@@ -62,8 +62,8 @@ function displayProducts(){
                 let segment = document.createElement("div");
                 segment.classList.add("product")
                 df.appendChild(segment)
-                segment.appendChild(create("div", "<img src ='"+doc.data().ImgUrls+"'>", "pImg"));
-                segment.appendChild(create("div", doc.data().ProductName, "pName"));
+                segment.appendChild(create("div", "<img src='"+doc.data().ImgUrls+"'>", "pImg"));
+                segment.appendChild(create("div", "<a href='productPage.html?productId="+p+"'>"+doc.data().ProductName+"</a>", "pName"));
                 segment.appendChild(create("div", "$" + doc.data().ProductPrice, "pPrice"));
                 segment.appendChild(create("div", doc.data().Description, "desc"));
             } else {

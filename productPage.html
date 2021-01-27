@@ -2,6 +2,14 @@
     <head>
         <title>Product Page</title>
         <link rel = "stylesheet" href="productPage.css">
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="index.js"></script>
+        <script src="header.js"></script>
+        <script src="productPage.js"></script>
         <script>
             function includeHTML() {
             var z, i, elmnt, file, xhttp;
@@ -32,21 +40,27 @@
         <div header-html="header.html"></div>
         <script>
             includeHTML();
+            checkUserStatus()
         </script>
 
         <div class="product-container">
             <div class="product-wrapper" >
                 <div class="images">
-                    <img src="images/RTX-3070.jpg" width="100%" height="100%">
-
-
+                    <!-- <img src="images/RTX-3070.jpg" width="100%" height="100%"> -->
+                    <a class="prev" onclick="nextSlide('-1')">&#10094;</a>
+                    <a class="next" onclick="nextSlide('1')">&#10095;</a>
+                    <!-- <div id="dot" style="text-align:center"></div> -->
                 </div>
                 <div class="other-info">
                     <h1 id="product-name">RTX-3070 8GB</h1>
-                    <h4>$599</h4>
-                    <a href="#" class="btn">Add To Cart</a>
+                    <h4 id = "product_price">$599</h4>
+                    <a href="#" class="btn" id="buy_btn">Add To Cart</a>
+                    <div id = "bid_container">
+                        <input type="text" id="bid_field"/>
+                        <button>Place Bid</button>
+                    </div>
                     <h3>product Details</h3>
-                    <p>The GeForce RTX™ 3070 is powered by Ampere—NVIDIA's 2nd gen RTX architecture. Built with enhanced Ray
+                    <p id = "product_details">The GeForce RTX™ 3070 is powered by Ampere—NVIDIA's 2nd gen RTX architecture. Built with enhanced Ray
                         Tracing Cores and Tensor Cores, new streaming multiprocessors,and high-speed G6 memory, it gives you
                         the power you need to rip through the most demanding games.</p>
                 </div>
@@ -54,26 +68,26 @@
             <div class="question_container">
                 <h1>Customer questions & answers</h1>
                 <div id = "question_answer">
-                    <div class = "question">
+                    <!-- <div class = "question">
                         <h3>Question:</h3>
                         <h5 id = "question">Bolo fasi ra iqneba?</h5>
                     </div>
                     <div class = "answer">
                         <h3>Answer:</h3>
-                        <p>Fasi ar daakldeba</p>
-                    </div>
+                        <p id = "reply_text">Fasi ar daakldeba</p>
+                        <a href = "#" class = "reply" id = "reply_consumer">reply</a>
+                    </div> -->
                 </div>
                 
-                
+
             </div>
             <div class = "askOrAnswer">
                 <input type = "text" id = "question" placeholder="Type your question">
                 <input type="submit" value = "Ask Question">
             </div>
         </div>
-
-        <script src="header.js"></script>
-        <script src="index.js"></script>
+        
+        
 
     </body>
 </html>

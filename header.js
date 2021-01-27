@@ -1,6 +1,7 @@
 
 //window.onload = checkUserStatus()
 
+// var myUser;
 
 function checkUserStatus(){
     console.log("check user")
@@ -47,6 +48,7 @@ function wellcomeUser(){
     var user = firebase.auth().currentUser; 
     
     if(user != null){
+        // myUser = user
         var greetUser =  document.getElementById("curr_user")
         greetUser.innerHTML = "Hi " + user.displayName
         var hoverContainer =  document.getElementById("hoverContainer")
@@ -99,6 +101,8 @@ function signInFunction(){
         trySignIn.then(() => {
             wellcomeUser()
             closeSignInForm()
+        }).then(() =>{
+            location.reload(true);
         })
         .catch(function(error){
             var warning = error.code
@@ -138,7 +142,10 @@ function signUpFunction(){
                 var errorMessage = error.message;
                 window.alert(errorMessage);
             });
-        }).catch((error) => {
+        }).then(() =>{
+            location.reload(true);
+        })
+        .catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
             window.alert(errorMessage);
@@ -157,7 +164,11 @@ function signOutFunction(){
         document.getElementById("register").style.display = "block"
         document.getElementById("hoverContainer").style.display = "none"
         document.getElementById("sell").style.display = "none"
-      }).catch((error) => {
+        // myUser = null
+      }).then(() =>{
+        location.reload(true);
+      })
+      .catch((error) => {
             var errorMessage = error.message;
             window.alert(errorMessage);
       });

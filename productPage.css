@@ -27,13 +27,81 @@
 }
 
 .images{
-    width: 100%;
-    margin-right: 20px;
+    width: 30%;
+    margin-right:10%;
+    /* width: auto; */
+    /* margin-right: 20px; */
+    position: relative;
+    /* display: block; */
 }
+
+.product__image{
+    width: 100%;
+}
+
+.prev, .next{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color:aliceblue;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+    transition: 0.4s ease;
+    user-select: none;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(10, 5, 5, 0.8);
+  }
+
+.next{
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+#dot{
+    text-align:center;
+}
+
+.my_dot{
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    background-color: rgb(199, 195, 195);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.4s ease;
+}
+
+.active, .my_dot:hover {
+    background-color: #5a5858;
+}
+
+@media only screen and (max-width: 300px) {
+    .prev, .next,.text {font-size: 11px}
+  }
+
+
 
 #product-name{
     font-size:x-large;
     margin-top: 0px;
+}
+
+#buy_btn{
+    display: none;
+}
+
+
+
+#bid_container{
+    display: none;
+    width: auto;
 }
 
 .question_container{
@@ -42,6 +110,7 @@
     border-top: 1px solid rgb(202, 202, 202);
     border-bottom: 1px solid rgb(202, 202, 202);
     overflow-y: auto;
+    
 }
 
 .question_container h1{
@@ -57,9 +126,17 @@
     margin: 10px;
 }
 
+.question {
+    height: 10%;
+}
+
 .answer{
     display: flex;
-    align-items: center;
+    align-items: center; 
+    padding-top: 0px;
+    padding-left: 7%;
+    height: 8%;
+    
 }
 
 .answer h3{
@@ -70,4 +147,22 @@
     margin: 10px;
     
 }
+.question_box{
+    border-left: 1px solid rgb(182, 182, 182);
+    margin-bottom: 2vh;
+}
 
+#question_answer{
+    /* border-left: 1px solid rgb(182, 182, 182);
+    border-bottom: 50px; */
+}
+
+
+.reply_container{
+    width: 100%;
+
+}
+
+.reply_container input{
+    width: 50%;
+}
