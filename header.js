@@ -174,3 +174,7 @@ function signOutFunction(){
       });
 }
 
+function openMessages(){
+    let messageContainer = document.getElementsByClassName("myMessages")[0]
+    messageContainer.style.display = "block"
+}

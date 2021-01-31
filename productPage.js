@@ -7,6 +7,7 @@ var productInfo2;
 var productName;
 var productPrice;
 var currSlideIndex = 1;
+var questionIndex = -1;
 
 window.addEventListener("DOMContentLoaded", function () {
     var db = firebase.firestore();
@@ -46,51 +47,82 @@ function getProductInfo(db, productId){
 }
 
 function loadAnswers(db, productId){
-    db.collection("products").doc(productId).collection("Messages")
-    .get().then(querySnapshot => {
+    db.collection("products").doc(productId).collection("Messages").orderBy("questionNum")
+    .onSnapshot(snapshot => {
         let allQuestions = document.getElementById("question_answer") 
-        querySnapshot.forEach(doc => {
-            console.log(doc.id, " => ", doc.data().question);
-            let question = doc.data().question
-            let answer = doc.data().answer
-            let conversationPart = document.createElement("div")
-            conversationPart.className = "question_box"
-            conversationPart.id = doc.id
-            let questionDiv = document.createElement("div")
-            let questionLabel = document.createElement("h3")
-            let questionText = document.createElement("h5")
-            questionDiv.className = "question"
-            questionLabel.innerHTML = "Question: "
-            // questionText.id = "question"
-            questionText.innerHTML = question
-            questionDiv.appendChild(questionLabel)
-            questionDiv.appendChild(questionText)
+        snapshot.docChanges().forEach(change => {
+            // if (change.type === "added"){
+            //     console.log("bla blaa blaaa ")
+            //     // console.log(canReply)
+            // }
+            if(change.type === "modified"){
+                console.log("imedia araa")
+                makeReply(change.doc.id, change.doc.data().answer)
+            }else{
+            //console.log(doc.id, " => ", doc.data().question);
+                console.log("override?")
+                questionIndex++
+                let question = change.doc.data().question
+                let answer = change.doc.data().answer
+                let conversationPart = document.createElement("div")
+                conversationPart.className = "question_box"
+                conversationPart.id = change.doc.id
+                let questionDiv = document.createElement("div")
+                let questionLabel = document.createElement("h3")
+                let questionText = document.createElement("h5")
+                questionDiv.className = "question"
+                questionLabel.innerHTML = "Question: "
+                // questionText.id = "question"
+                questionText.innerHTML = question
+                questionDiv.appendChild(questionLabel)
+                questionDiv.appendChild(questionText)
 
-            let answerDiv = document.createElement("div")
-            answerDiv.className = "answer"
-            if(answer != null){
-                let answerLabel = document.createElement("h3")
-                let answerText = document.createElement("p")
-                answerLabel.innerHTML = "Answer: "
-                answerText.innerHTML = answer
-                answerDiv.appendChild(answerLabel)
-                answerDiv.appendChild(answerText)
-            }else if (canReply){
-                let myReply = document.createElement("a")
-                myReply.className = "reply"
-                // myReply.id = ""
-                myReply.href = "#"
-                myReply.onclick = () => { replyQuestion(doc.id, productId); }
-                myReply.innerHTML = "Reply"
-                answerDiv.appendChild(myReply)
-            }
+                let answerDiv = document.createElement("div")
+                answerDiv.className = "answer"
+                if(answer != null){
+                    console.log("this is an answer:")
+                    let answerLabel = document.createElement("h3")
+                    let answerText = document.createElement("p")
+                    answerLabel.innerHTML = "Answer: "
+                    answerText.innerHTML = answer
+                    answerDiv.appendChild(answerLabel)
+                    answerDiv.appendChild(answerText)
+                }else if (canReply){
+                    console.log("this is an reply:")
+                    let myReply = document.createElement("a")
+                    myReply.className = "reply"
+                    // myReply.id = ""
+                    myReply.href = "javascript:void(0);"
+                    myReply.onclick = () => { replyQuestion(change.doc.id, productId); }
+                    myReply.innerHTML = "Reply"
+                    answerDiv.appendChild(myReply)
+                }
 
-            conversationPart.appendChild(questionDiv)
-            conversationPart.appendChild(answerDiv)
-            allQuestions.appendChild(conversationPart)
+                conversationPart.appendChild(questionDiv)
+                conversationPart.appendChild(answerDiv)
+                allQuestions.appendChild(conversationPart)
+                //assignListener(db , productId, doc.id)
+        }
         });
+        
     });
 }
+
+function makeReply(docId, answer){
+    let conversationPart = document.getElementById(docId)
+    let ownerAnswer = conversationPart.getElementsByClassName("answer")[0]
+    let reply = ownerAnswer.getElementsByClassName("reply")[0]
+    reply.parentNode.removeChild(reply)
+    let answerLabel = document.createElement("h3")
+    let answerText = document.createElement("p")
+    answerLabel.innerHTML = "Answer: "
+    answerText.innerHTML = answer
+    ownerAnswer.appendChild(answerLabel)
+    ownerAnswer.appendChild(answerText)
+        //let ownerAnswer = conversationPart.getElementsByTagName("p")
+        //ownerAnswer.innerHTML = doc.data().answer
+}
+
 
 function makeSlideshow(){
     imageContainer = document.getElementsByClassName('images');
@@ -200,10 +232,30 @@ function closeReply(id){
 }
 
 function sendReply(id, productID, response){
+    console.log("send answer")
     let db = firebase.firestore();
     db.collection("products").doc(productID).collection("Messages").doc(id)
     .update({
         answer: response
-    })//.then
+    }).then(() => {
+        let currentQuestion = document.getElementById(id)
+        let replyDiv = currentQuestion.getElementsByClassName("reply_container")[0]
+        replyDiv.parentNode.removeChild(replyDiv)
+    })
+}
+
+
+function sendQuestion(){
+    var db = firebase.firestore();
+    var queryString = decodeURIComponent(window.location.search);
+    let productId =  queryString.substring(11);
+    let currQuestion = document.getElementsByClassName("askOrAnswer")[0].getElementsByTagName("input")[0]
+    db.collection("products").doc(productId).collection("Messages").add({
+        question: currQuestion.value,
+        questionNum: questionIndex
+    }).then(() => {
+        document.getElementsByClassName("question_container")[0].scrollBy(0, 100)
+        currQuestion.value = ""
+    })
 }
 
