@@ -50,7 +50,7 @@ function loadAnswers(db, productId){
     .get().then(querySnapshot => {
         let allQuestions = document.getElementById("question_answer") 
         querySnapshot.forEach(doc => {
-            // console.log(doc.id, " => ", doc.data().question);
+            console.log(doc.id, " => ", doc.data().question);
             let question = doc.data().question
             let answer = doc.data().answer
             let conversationPart = document.createElement("div")
@@ -80,7 +80,7 @@ function loadAnswers(db, productId){
                 myReply.className = "reply"
                 // myReply.id = ""
                 myReply.href = "#"
-                myReply.onclick = () => { replyQuestion(doc.id); }
+                myReply.onclick = () => { replyQuestion(doc.id, productId); }
                 myReply.innerHTML = "Reply"
                 answerDiv.appendChild(myReply)
             }
@@ -171,7 +171,7 @@ function canUserReply(db, productId){
     })
 }
 
-function replyQuestion(id){
+function replyQuestion(id, productID){
     let currentQuestion = document.getElementById(id)
     let repButton = currentQuestion.getElementsByClassName("answer")[0]
                     .getElementsByClassName("reply")[0]
@@ -181,7 +181,7 @@ function replyQuestion(id){
     //inputField.className = "reply_input"
     let sendButton = document.createElement("button")
     sendButton.innerHTML = "Send"
-    
+    sendButton.onclick = () => { sendReply(id, productID, inputField.value); }
     inputContainer.appendChild(inputField)
     inputContainer.appendChild(sendButton)
     currentQuestion.appendChild(inputContainer)
@@ -197,5 +197,13 @@ function closeReply(id){
     replyDiv.parentNode.removeChild(replyDiv)
     repButton.removeAttribute("onclick")
     repButton.onclick = () => { replyQuestion(id); }
+}
+
+function sendReply(id, productID, response){
+    let db = firebase.firestore();
+    db.collection("products").doc(productID).collection("Messages").doc(id)
+    .update({
+        answer: response
+    })//.then
 }
 
