@@ -27,10 +27,13 @@
                 </div>
             </nav>
             <a href="addProductPage.html" id = "sell">Sell</a>
-            <!-- <div > -->
-            <input  class = "messageIcon" type="image" onclick = "openMessages()" src = "images/message.png" alt = "messages">
-                <!-- <div class = "myMessages"></div> -->
-            <!-- </div> -->
+            
+            <div  class = "messageIcon">
+                <img id = "messageIconImage" src = "images/message.png" alt = "messages"  onclick = "openMessages()">
+                <span class="mymessages">
+                    <span class="closemessages" onclick="closeMessageBox()">&times;</span>
+                </span>
+            </div>   
             <input class = "cartIcon" type="image" src = "images/cart.png" alt = "cart">
         </div>
 

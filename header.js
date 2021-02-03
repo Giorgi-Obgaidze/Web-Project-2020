@@ -1,12 +1,13 @@
 
 //window.onload = checkUserStatus()
 
-// var myUser;
+var myUserId;
 
 function checkUserStatus(){
     console.log("check user")
     firebase.auth().onAuthStateChanged(function(user){
         if(user){
+            myUserId = user.uid
             wellcomeUser()
             console.log("user still here");
         }else{
@@ -174,7 +175,53 @@ function signOutFunction(){
       });
 }
 
-function openMessages(){
-    let messageContainer = document.getElementsByClassName("myMessages")[0]
-    messageContainer.style.display = "block"
+function openMessages(){  
+    document.getElementById("messageIconImage").onclick = null
+    let db = firebase.firestore()
+    var popup = document.getElementsByClassName("mymessages")[0];
+    db.collection("users").doc(myUserId).collection("myMessages")
+    .get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            let questionDiv = document.createElement("div")
+            questionDiv.className = "questionContainer"
+            let pLink = document.createElement("a")
+            pLink.href = "productPage.html?productId=" + doc.id
+            pLink.innerHTML = doc.data().productName
+            questionDiv.appendChild(pLink)
+            popup.appendChild(questionDiv)
+            console.log("loading existing " + doc.id)
+        })
+    }).then(() => {
+        popup.style.display = "block"
+    })
+        //.onSnapshot(snapshot => {
+            //snapshot.docChanges().forEach(change =>{
+                // if (change.type === "added"){
+                //     console.log("added")
+                // }
+                // if (change.type === "modified"){
+                //     console.log("modified")
+                // }else{
+                    
+               // }
+
+        //     })
+        // })
+        
+    
+    //popup.classList.toggle("show");
+    // let messageContainer = document.getElementsByClassName("myMessages")[0]
+    // messageContainer.style.display = "block"
+}
+
+function closeMessageBox(){
+    document.getElementById("messageIconImage").onclick = openMessages
+    var popup = document.getElementsByClassName("mymessages")[0];
+    popup.style.display = "none"
+    var qDivs = popup.getElementsByClassName("questionContainer");
+    let bla = qDivs.length
+    for (let i = 0; i < bla; i++) {
+        console.log(i)
+        qDivs[0].parentNode.removeChild(qDivs[0])
+    }
 }

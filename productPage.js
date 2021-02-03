@@ -7,7 +7,7 @@ var productInfo2;
 var productName;
 var productPrice;
 var currSlideIndex = 1;
-var questionIndex = -1;
+var questionIndex = 0;
 
 window.addEventListener("DOMContentLoaded", function () {
     var db = firebase.firestore();
@@ -241,6 +241,7 @@ function sendReply(id, productID, response){
         let currentQuestion = document.getElementById(id)
         let replyDiv = currentQuestion.getElementsByClassName("reply_container")[0]
         replyDiv.parentNode.removeChild(replyDiv)
+        markQuestionAnswered(db, productID)
     })
 }
 
@@ -256,6 +257,57 @@ function sendQuestion(){
     }).then(() => {
         document.getElementsByClassName("question_container")[0].scrollBy(0, 100)
         currQuestion.value = ""
+        notifyOwner(db, productId)
     })
 }
 
+
+function notifyOwner(db, productID){
+    let myUser = db.collection("users").where("myProducts", "array-contains", String(productID));
+    //let messageRef = myUser.collection("myMessages").doc(productID)
+    myUser.get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+            let messageRef = db.collection("users").doc(doc.id).collection("myMessages").doc(productID)
+            messageRef.get()
+            .then((docSnapshot) => {
+                if(docSnapshot.exists){
+                    console.log("update")
+                    messageRef.get().then((doc) =>{
+                        messageRef.update({
+                            questionsLeft: doc.data().questionsLeft + 1
+                        })
+                    });
+                }else{
+                    console.log("creating")
+                    messageRef.set({
+                        productName: productName,
+                        questionsLeft: 1
+                    })
+                }
+            })
+        })
+        
+    })
+}
+
+function markQuestionAnswered(db, productID){
+    let myUser = db.collection("users").where("myProducts", "array-contains", String(productID));
+    //let messageRef = myUser.collection("myMessages").doc(productID)
+    myUser.get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+            let messageRef = db.collection("users").doc(doc.id).collection("myMessages").doc(productID)
+            messageRef.get()
+            .then((doc) => {
+                if(doc.data().questionsLeft == 1){
+                    messageRef.delete()
+                }else{
+                    messageRef.update({
+                        questionsLeft: doc.data().questionsLeft - 1
+                    })
+                }
+            })
+        })
+    })
+}
