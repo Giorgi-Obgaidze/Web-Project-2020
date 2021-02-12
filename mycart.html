@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>My Cart</title>
+        <link rel = "stylesheet" href="mycart.css">
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js"></script>
+        <script src="index.js"></script>
+        <script src="header.js"></script>
+        <script src="mycart.js"></script>
+        <script>
+            function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                file = elmnt.getAttribute("header-html");
+                if (file) {
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                    if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                    if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                    elmnt.removeAttribute("header-html");
+                    includeHTML();
+                    }
+                }      
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                return;
+                }
+            }
+            };
+        </script>
+    </head>
+
+    <body>
+        <div header-html="header.html"></div>
+        <script>
+            includeHTML();
+            checkUserStatus()
+        </script>
+        <div class="products__container">
+            <div class="title">
+                Shopping Cart
+              </div>
+            <div class="my__list"></div>
+            <div class="buy__products"></div>
+        </div>
+
+    </body>
+</html>

@@ -15,12 +15,6 @@ function checkUserStatus(){
             console.log("user not here");
         }
     });
-    //var user = firebase.auth().currentUser; 
-    
-   // if(user != null){
-        //console.log("user in")
-        
-    //}
 }
 
 function closeSignInForm(){

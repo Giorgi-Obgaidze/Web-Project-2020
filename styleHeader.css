@@ -52,6 +52,9 @@ h1{
 #or{
     display: none;
 }
+#slash{
+    display: none;
+}
 
 .cartIcon{
     margin-left: 20vw;
@@ -137,6 +140,9 @@ h1{
     width: 200px;
     margin-left: 18vw;
 }
+.mobilelogo{
+    display: none;
+}
 
 .search{
     display: flex;
@@ -172,6 +178,69 @@ h1{
 
 .search__button:hover{
     background-color: rgb(35, 65, 82);
+}
+
+.bla{
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px){
+    .logo{
+        display: none;
+    }
+    .mobilelogo{
+        display: block;
+        width: 20%;
+        height: 100%;
+    }
+    .search{
+        justify-content: center;
+    }
+    .search__bar{
+        width: 80%;
+        margin-right: 0px;
+        border: 1px solid black;
+        border-radius: 0px;
+    }
+    .search__button{
+        margin-left: 0px;
+        width: 10%;
+        font-size: 6px;
+    }
+    #search__form{
+        display: flex;
+        justify-content: center;
+        margin-right: 0px;
+        width: 100%;
+        
+    }
+    .messageIcon{
+        margin: 0;
+    }
+    .cartIcon{
+        right: 10%;
+        border-left: 30px !important;
+    }
+    #or, #hi {
+        display: none !important;
+    }
+    
+    #slash{
+        display: block;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .bla{
+        position: absolute;
+        width: 100%;
+        justify-content: center;
+    }
+/* 
+    nav{
+        
+    } */
 }
 
 
