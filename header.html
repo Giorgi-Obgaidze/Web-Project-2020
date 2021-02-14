@@ -12,7 +12,6 @@
         <script src="header.js"></script>
     </head>
     <body>
-        <!-- <script>checkUserStatus()</script> -->
         <div class = "header">
            
             <nav id = "nav_bar">
@@ -41,7 +40,7 @@
                     <span class="closemessages" onclick="closeMessageBox()">&times;</span>
                 </span>
             </div>  
-            <form action="mycart.html"> 
+            <form action="javascript: checkUserCart();" id = "frm"> 
                 <input class = "cartIcon" type="image" src = "images/cart.png" alt = "cart">
             </form>
         </div>
@@ -76,18 +75,9 @@
 
         <script>checkUserStatus()</script>
         
-        <!-- <script>
-            checkUserStatus()
-            firebase.auth().signOut().then(() => {
-                console.log("sign out")
-            }).catch((error) => {
-                console.log(error.message)
-            });
-        </script> -->
         <script>
            firebase.auth().onAuthStateChanged(function(user){
             if(user){
-                console.log("congrats test");
             }
         });
         </script>

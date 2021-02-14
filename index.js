@@ -8,9 +8,6 @@ var firebaseConfig = {
     appId: "1:1089753996768:web:bb61d14d9ec6af122c5f85"
   };
 
-  // Initialize Firebase
-  //if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-  //}
 
   firebase.auth.Auth.Persistence.LOCAL;

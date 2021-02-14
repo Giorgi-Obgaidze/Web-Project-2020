@@ -5,7 +5,6 @@ var userId = ""
 
 window.addEventListener("DOMContentLoaded", function () {
     var db = firebase.firestore()
-    console.log("check user")
     firebase.auth().onAuthStateChanged(function(user){
         if(user){
             userId = user.uid
@@ -57,8 +56,6 @@ function displayList(db){
     }).then(() => {
         var i;
         for (i = 0; i < cartItems.length; i++) {
-            console.log("containerId: " + containerIDs[i])
-            console.log("cart item: " + cartItems[i])
             let currContainer = containerIDs[i]
             let currItem = cartItems[i]
             document.getElementById(cartItems[i]).onclick = () => {removeFromCart(currItem, currContainer, db);}
@@ -68,12 +65,9 @@ function displayList(db){
 }
 
 function removeFromCart(docId, itemId, db){
-    console.log("clicked " + itemId)
-    console.log("tring to remove element from array " + docId)
     db.collection("users").doc(userId).update({
         cart: firebase.firestore.FieldValue.arrayRemove(docId)
     }).then(() =>{
-        console.log("removing " + itemId)
         notWantedItem = document.getElementById(itemId);
         notWantedItem.parentNode.removeChild(notWantedItem)
     }).then(() =>{
@@ -104,7 +98,6 @@ function buyItems() {
         let cartItemId = cartItems[i]
         let cartContainerId = containerIDs[i]
         db.collection("products").doc(cartItems[i]).delete().then(() => {
-            console.log("Document successfully deleted!");
             removeFromCart(cartItemId, cartContainerId, db)
         }).catch((error) => {
             console.error("Error removing document: ", error);

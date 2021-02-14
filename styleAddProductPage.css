@@ -37,16 +37,7 @@
     padding: 20px;
 }
 
-@media screen and (max-width: 600px) {
-    .cat-button {
-      flex: 50%;
-      font-size: 15px;
-    }
 
-    .container{
-        height: 60%;
-    }
-  }
 
 
 .cat-button:hover{
@@ -175,3 +166,20 @@
     justify-content: center;
     margin-bottom: 1vh;
 }
+
+@media screen and (max-width: 600px) {
+    .cat-button {
+      flex: 50%;
+      font-size: 15px;
+    }
+
+    .container{
+        height: 60%;
+    }
+    #product__form{
+        align-items: center;
+    }
+    #price{
+        width: 20%;
+    }
+  }

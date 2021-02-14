@@ -1,18 +1,13 @@
 
-//window.onload = checkUserStatus()
-
 var myUserId;
 
 function checkUserStatus(){
-    console.log("check user")
     firebase.auth().onAuthStateChanged(function(user){
         if(user){
             myUserId = user.uid
             wellcomeUser()
-            console.log("user still here");
         }else{
             wellcomeNewUser()
-            console.log("user not here");
         }
     });
 }
@@ -180,7 +175,6 @@ function signOutFunction(){
         document.getElementById("register").style.display = "block"
         document.getElementById("hoverContainer").style.display = "none"
         document.getElementById("sell").style.display = "none"
-        // myUser = null
       }).then(() =>{
         location.reload(true);
       })
@@ -208,31 +202,8 @@ function openMessages(){
                 console.log("loading existing " + doc.id)
         })
     }).then(() => {
-        // if (messageCount == 0){
-        //     document.getElementById("messageIconImage").src = "images/message.png"
-        // }else{
-        //     document.getElementById("messageIconImage").src = "images/received-message.png"
-        // }
         popup.style.display = "inline-block"
     })
-        //.onSnapshot(snapshot => {
-            //snapshot.docChanges().forEach(change =>{
-                // if (change.type === "added"){
-                //     console.log("added")
-                // }
-                // if (change.type === "modified"){
-                //     console.log("modified")
-                // }else{
-                    
-               // }
-
-        //     })
-        // })
-        
-    
-    //popup.classList.toggle("show");
-    // let messageContainer = document.getElementsByClassName("myMessages")[0]
-    // messageContainer.style.display = "block"
 }
 
 function closeMessageBox(){
@@ -245,4 +216,15 @@ function closeMessageBox(){
         console.log(i)
         qDivs[0].parentNode.removeChild(qDivs[0])
     }
+}
+
+function checkUserCart() {
+    let f = document.getElementById("frm")
+    firebase.auth().onAuthStateChanged(function(user){
+        if(user){
+            f.setAttribute("action", "mycart.html")
+        }else{
+            window.alert("Please Sign in first")
+        }
+    });
 }

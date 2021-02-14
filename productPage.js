@@ -15,7 +15,6 @@ window.addEventListener("DOMContentLoaded", function () {
     var db = firebase.firestore();
     var queryString = decodeURIComponent(window.location.search);
     let productId =  queryString.substring(11);
-    console.log(productId);
     canUserReply(db, productId)
 
 });
@@ -27,7 +26,6 @@ function getProductInfo(db, productId){
     .get().then(function(doc){
         docId = doc.id
         let productData = doc.data();
-        // console.log(productData);
         imgLibrary = productData.ImgUrls;
         auction = productData.Auction;
         description = productData.Description;
@@ -37,7 +35,7 @@ function getProductInfo(db, productId){
         productPrice = productData.ProductPrice;
     }).then(function(){
         document.getElementById("product-name").innerHTML = productName;
-        document.getElementById("product_price").innerHTML = productPrice;
+        document.getElementById("product_price").innerHTML = productPrice + "$";
         document.getElementById("product_details").innerHTML = description;
         if(auction && !canReply){
             document.getElementById("bid_container").style.display = "block";
@@ -58,16 +56,9 @@ function loadAnswers(db, productId){
     .onSnapshot(snapshot => {
         let allQuestions = document.getElementById("question_answer") 
         snapshot.docChanges().forEach(change => {
-            // if (change.type === "added"){
-            //     console.log("bla blaa blaaa ")
-            //     // console.log(canReply)
-            // }
             if(change.type === "modified"){
-                console.log("modified")
                 makeReply(change.doc.id, change.doc.data().answer)
             }else{
-            //console.log(doc.id, " => ", doc.data().question);
-                console.log("override?")
                 questionIndex++
                 let question = change.doc.data().question
                 let answer = change.doc.data().answer
@@ -87,7 +78,6 @@ function loadAnswers(db, productId){
                 let answerDiv = document.createElement("div")
                 answerDiv.className = "answer"
                 if(answer != null){
-                    console.log("this is an answer:")
                     let answerLabel = document.createElement("h3")
                     let answerText = document.createElement("p")
                     answerLabel.innerHTML = "Answer: "
@@ -95,10 +85,8 @@ function loadAnswers(db, productId){
                     answerDiv.appendChild(answerLabel)
                     answerDiv.appendChild(answerText)
                 }else if (canReply){
-                    console.log("this is an reply:")
                     let myReply = document.createElement("a")
                     myReply.className = "reply"
-                    // myReply.id = ""
                     myReply.href = "javascript:void(0);"
                     myReply.onclick = () => { replyQuestion(change.doc.id, productId); }
                     myReply.innerHTML = "Reply"
@@ -108,8 +96,7 @@ function loadAnswers(db, productId){
                 conversationPart.appendChild(questionDiv)
                 conversationPart.appendChild(answerDiv)
                 allQuestions.appendChild(conversationPart)
-                //assignListener(db , productId, doc.id)
-        }
+            }
         });
         
     });
@@ -128,8 +115,6 @@ function makeReply(docId, answer){
     answerText.innerHTML = answer
     ownerAnswer.appendChild(answerLabel)
     ownerAnswer.appendChild(answerText)
-        //let ownerAnswer = conversationPart.getElementsByTagName("p")
-        //ownerAnswer.innerHTML = doc.data().answer
 }
 
 
@@ -151,7 +136,6 @@ function makeSlideshow(){
         currSlide.appendChild(currImage);
         imageContainer[0].appendChild(currSlide);
     }
-    console.log("all images are ready");
     imageContainer[0].appendChild(myDots);
     showFirstSlide();
 }
@@ -199,20 +183,18 @@ function canUserReply(db, productId){
             db.collection("users").doc(user.uid)
             .get().then(function(doc){
             if (doc.data().cart.length != 0){
-                console.log("cart is not empty")
                 //document.getElementsByClassName("cartIcon")[0].src = "images/shopping-cart.png"
             }
             if(doc.data().myProducts.includes(productId)){
                 canReply = true
+                document.getElementsByClassName("askOrAnswer")[0].style.display = "none"
             }else{
                 canReply = false
             }
         }).then(() => {
-            console.log("gather info")
             getProductInfo(db, productId);
         })
         }else{
-            console.log("gather info")
             userSignedIn = false
             currentUserId = false
             canReply = false
@@ -228,7 +210,6 @@ function replyQuestion(id, productID){
     let inputContainer = document.createElement("div")
     inputContainer.className = "reply_container"
     let inputField = document.createElement("input")
-    //inputField.className = "reply_input"
     let sendButton = document.createElement("button")
     sendButton.innerHTML = "Send"
     sendButton.onclick = () => { sendReply(id, productID, inputField.value); }
@@ -250,7 +231,6 @@ function closeReply(id){
 }
 
 function sendReply(id, productID, response){
-    console.log("send answer")
     let db = firebase.firestore();
     db.collection("products").doc(productID).collection("Messages").doc(id)
     .update({
@@ -282,7 +262,6 @@ function sendQuestion(){
 
 function notifyOwner(db, productID){
     let myUser = db.collection("users").where("myProducts", "array-contains", String(productID));
-    //let messageRef = myUser.collection("myMessages").doc(productID)
     myUser.get()
     .then((querySnapshot) => {
         querySnapshot.forEach(doc => {
@@ -290,15 +269,12 @@ function notifyOwner(db, productID){
             messageRef.get()
             .then((docSnapshot) => {
                 if(docSnapshot.exists){
-                    console.log("update")
                     messageRef.get().then((doc) =>{
                         messageRef.update({
                             questionsLeft: doc.data().questionsLeft + 1
                         })
                     });
                 }else{
-                    console.log("creating")
-                    //document.getElementById("messageIconImage").src = "images/received-message.png"
                     messageRef.set({
                         productName: productName,
                         questionsLeft: 1
@@ -312,7 +288,6 @@ function notifyOwner(db, productID){
 
 function markQuestionAnswered(db, productID){
     let myUser = db.collection("users").where("myProducts", "array-contains", String(productID));
-    //let messageRef = myUser.collection("myMessages").doc(productID)
     myUser.get()
     .then((querySnapshot) => {
         querySnapshot.forEach(doc => {
@@ -320,7 +295,6 @@ function markQuestionAnswered(db, productID){
             messageRef.get()
             .then((doc) => {
                 if(doc.data().questionsLeft == 1){
-                    //document.getElementById("messageIconImage").src = "images/message.png"
                     messageRef.update({
                         questionsLeft: doc.data().questionsLeft - 1
                     })
@@ -338,7 +312,6 @@ function markQuestionAnswered(db, productID){
 
 function addItemToCart(itemId){
     if (userSignedIn){
-        console.log(itemId + " " + currentUserId)
         let db = firebase.firestore()
         db.collection("users").doc(currentUserId).update({
             cart: firebase.firestore.FieldValue.arrayUnion(itemId)
