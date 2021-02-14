@@ -1,5 +1,6 @@
 
 var cartItems = []
+var containerIDs = []
 var userId = ""
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -9,8 +10,6 @@ window.addEventListener("DOMContentLoaded", function () {
         if(user){
             userId = user.uid
             createList(myUserId, db)
-        }else{
-            
         }
     });
 })
@@ -22,17 +21,21 @@ function createList(userID, db){
         let arr = doc.data().cart
         if (arr != null) {
         doc.data().cart.map((item) => {
-            console.log(item)
             cartItems.push(item)
         })
     }
     }).then(() => {
-        displayList(db)
+        if(cartItems.length > 0){
+            displayList(db)
+        }else{
+            document.getElementsByClassName("buy__btn")[0].style.display = "none"
+        }
     }) 
 }
 
 
 function displayList(db){
+    document.getElementById("cartWarning").style.display = "none"
     let shoppingCart = document.getElementsByClassName("my__list")[0]
     var itemCount = 0
     db.collection("products").get().then((querrySnapshot) => {
@@ -41,34 +44,49 @@ function displayList(db){
                 let singleItem = document.createElement("div")
                 singleItem.className = "cart__item"
                 itemId = "item" + itemCount
+                itemCount++
                 singleItem.id = itemId
+                containerIDs.push(itemId)
                 shoppingCart.appendChild(singleItem)
                 singleItem.appendChild(create("div", "<span class=\"delete-btn\" id ="+ doc.id +">&times;</span>", "btns"))
                 singleItem.appendChild(create("div", "<img src='"+doc.data().ImgUrls+"'>", "image"))
                 singleItem.appendChild(create("div", "<span>"+ doc.data().ProductName +"</span>", "description"))
                 singleItem.appendChild(create("div", "Price: $" + doc.data().ProductPrice, "totalPrice"))
-                document.getElementById(doc.id).onclick = () => { removeFromCart(doc.id, itemId, db);}
-                itemCount++
             }
         })
+    }).then(() => {
+        var i;
+        for (i = 0; i < cartItems.length; i++) {
+            console.log("containerId: " + containerIDs[i])
+            console.log("cart item: " + cartItems[i])
+            let currContainer = containerIDs[i]
+            let currItem = cartItems[i]
+            document.getElementById(cartItems[i]).onclick = () => {removeFromCart(currItem, currContainer, db);}
+        }
+        
     })
 }
 
 function removeFromCart(docId, itemId, db){
-    console.log("clicked")
-    // db.collection("products").doc(docId).delete().then(() =>{
-    //     console.log("removing ")
-    //     notWantedItem = documnet.getElementById(itemId);
-    //     notWantedItem.parentNode.removeChild(notWantedItem)
-    // }).then(() => {
-    console.log("tring to remove element from array")
-    db.collection("products").doc(docId).update({
-        myProducts: myProducts.filter(product => product.id !== docId)
-    })
-    //});
-    // .catch((error) => {
-    //     window.alert("Error removing document: ", error);
-    // });
+    console.log("clicked " + itemId)
+    console.log("tring to remove element from array " + docId)
+    db.collection("users").doc(userId).update({
+        cart: firebase.firestore.FieldValue.arrayRemove(docId)
+    }).then(() =>{
+        console.log("removing " + itemId)
+        notWantedItem = document.getElementById(itemId);
+        notWantedItem.parentNode.removeChild(notWantedItem)
+    }).then(() =>{
+        db.collection("users").doc(userId)
+        .get().then((doc) => {
+            if(doc.data().cart.length == 0){
+                document.getElementById("cartWarning").style.display = "block"
+                document.getElementsByClassName("buy__btn")[0].style.display = "none"
+            }
+        })
+    }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
 }
 
 function create(tag, htmlText, className) {
@@ -77,3 +95,20 @@ function create(tag, htmlText, className) {
     elem.classList.add(className);
     return elem;    
 };
+
+
+function buyItems() {
+    let db = firebase.firestore()
+    var i;
+    for (i = 0; i < cartItems.length; i++) {
+        let cartItemId = cartItems[i]
+        let cartContainerId = containerIDs[i]
+        db.collection("products").doc(cartItems[i]).delete().then(() => {
+            console.log("Document successfully deleted!");
+            removeFromCart(cartItemId, cartContainerId, db)
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });        
+    }
+    document.getElementsByClassName("buy__btn")[0].style.display = "none"
+}

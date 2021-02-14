@@ -1,6 +1,7 @@
 var imgLibrary = []
 var auction = false;
 var canReply = false;
+var userSignedIn = false;
 var description;
 var productInfo1;
 var productInfo2;
@@ -8,6 +9,7 @@ var productName;
 var productPrice;
 var currSlideIndex = 1;
 var questionIndex = 0;
+var currentUserId = "";
 
 window.addEventListener("DOMContentLoaded", function () {
     var db = firebase.firestore();
@@ -23,6 +25,7 @@ function getProductInfo(db, productId){
     loadAnswers(db, productId)
     db.collection("products").doc(productId)
     .get().then(function(doc){
+        docId = doc.id
         let productData = doc.data();
         // console.log(productData);
         imgLibrary = productData.ImgUrls;
@@ -36,10 +39,14 @@ function getProductInfo(db, productId){
         document.getElementById("product-name").innerHTML = productName;
         document.getElementById("product_price").innerHTML = productPrice;
         document.getElementById("product_details").innerHTML = description;
-        if(auction){
+        if(auction && !canReply){
             document.getElementById("bid_container").style.display = "block";
+        }else if (!canReply){
+            let addCart = document.getElementById("buy_btn")
+            addCart.style.display = "block";
+            addCart.onclick = () => {addItemToCart(docId)}
         }else{
-            document.getElementById("buy_btn").style.display = "block";
+            document.getElementById("buy_btn").style.display = "none"
         }
         makeSlideshow();
         
@@ -56,7 +63,7 @@ function loadAnswers(db, productId){
             //     // console.log(canReply)
             // }
             if(change.type === "modified"){
-                console.log("imedia araa")
+                console.log("modified")
                 makeReply(change.doc.id, change.doc.data().answer)
             }else{
             //console.log(doc.id, " => ", doc.data().question);
@@ -112,7 +119,9 @@ function makeReply(docId, answer){
     let conversationPart = document.getElementById(docId)
     let ownerAnswer = conversationPart.getElementsByClassName("answer")[0]
     let reply = ownerAnswer.getElementsByClassName("reply")[0]
-    reply.parentNode.removeChild(reply)
+    if (reply != null){
+        reply.parentNode.removeChild(reply)
+    }
     let answerLabel = document.createElement("h3")
     let answerText = document.createElement("p")
     answerLabel.innerHTML = "Answer: "
@@ -185,8 +194,14 @@ function canUserReply(db, productId){
     return firebase.auth().onAuthStateChanged(function(user){
         canReply = false
         if(user){
+            userSignedIn = true
+            currentUserId = user.uid
             db.collection("users").doc(user.uid)
             .get().then(function(doc){
+            if (doc.data().cart.length != 0){
+                console.log("cart is not empty")
+                //document.getElementsByClassName("cartIcon")[0].src = "images/shopping-cart.png"
+            }
             if(doc.data().myProducts.includes(productId)){
                 canReply = true
             }else{
@@ -198,6 +213,9 @@ function canUserReply(db, productId){
         })
         }else{
             console.log("gather info")
+            userSignedIn = false
+            currentUserId = false
+            canReply = false
             getProductInfo(db, productId);
         }
     })
@@ -280,6 +298,7 @@ function notifyOwner(db, productID){
                     });
                 }else{
                     console.log("creating")
+                    //document.getElementById("messageIconImage").src = "images/received-message.png"
                     messageRef.set({
                         productName: productName,
                         questionsLeft: 1
@@ -301,6 +320,10 @@ function markQuestionAnswered(db, productID){
             messageRef.get()
             .then((doc) => {
                 if(doc.data().questionsLeft == 1){
+                    //document.getElementById("messageIconImage").src = "images/message.png"
+                    messageRef.update({
+                        questionsLeft: doc.data().questionsLeft - 1
+                    })
                     messageRef.delete()
                 }else{
                     messageRef.update({
@@ -310,4 +333,21 @@ function markQuestionAnswered(db, productID){
             })
         })
     })
+}
+
+
+function addItemToCart(itemId){
+    if (userSignedIn){
+        console.log(itemId + " " + currentUserId)
+        let db = firebase.firestore()
+        db.collection("users").doc(currentUserId).update({
+            cart: firebase.firestore.FieldValue.arrayUnion(itemId)
+        }).then(() => {
+            window.alert("item is added to your cart")
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }else{
+        window.alert("please sign in first to buy an item")
+    }
 }

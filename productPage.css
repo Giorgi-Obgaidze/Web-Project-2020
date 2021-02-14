@@ -152,10 +152,6 @@
     margin-bottom: 2vh;
 }
 
-#question_answer{
-    /* border-left: 1px solid rgb(182, 182, 182);
-    border-bottom: 50px; */
-}
 
 
 .reply_container{
@@ -165,4 +161,21 @@
 
 .reply_container input{
     width: 50%;
+}
+
+@media only screen and (max-width: 600px){
+    .product-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .images{
+        width: 80%;
+        margin-right: 0px;
+    }
+
+    .other-info{
+        width: 100%
+    }
 }

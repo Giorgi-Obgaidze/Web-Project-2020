@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>My Cart</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel = "stylesheet" href="mycart.css">
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
@@ -45,9 +46,13 @@
         <div class="products__container">
             <div class="title">
                 Shopping Cart
-              </div>
-            <div class="my__list"></div>
-            <div class="buy__products"></div>
+            </div>
+            <div class="my__list">
+                <label id="cartWarning">Cart Is Empty</label>
+            </div>
+            <div class="buy__products">
+                <button type="submit" class= "buy__btn" onclick="buyItems()" style="display: none;">Buy Products</button>
+            </div>
         </div>
 
     </body>

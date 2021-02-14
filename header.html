@@ -16,7 +16,9 @@
         <div class = "header">
            
             <nav id = "nav_bar">
-                <input class = "mobilelogo" type="image" src = "images/logo.jpg" alt = "logo">
+                <form action="header.html" id = "mbLogo_form">
+                    <input class = "mobilelogo" type="image" src = "images/logo.jpg" alt = "logo">
+                </form>
                 <div class = "bla">
                     <h1 style = "margin-left: 20vw;" id = "hi">Hi! &nbsp;</h1>
                     <a href="javascript:openSignInForm('sign-in')" id = "signin">Sign in &nbsp;</a>
@@ -45,7 +47,9 @@
         </div>
 
         <div class = "search">
-            <input class = "logo" type="image" src = "images/logo.jpg" alt = "logo">
+            <form action="header.html">
+                <input class = "logo" type="image" src = "images/logo.jpg" alt = "logo">
+            </form>
             <form action="searchPage.html" method="GET" id = "search__form">
                 <input class = "search__bar" id = "searchText" type="text" name = "userInput" placeholder="Search for Everything"/>
                 <button class = "search__button" id = "searchButton" type = "submit"> Search </button>

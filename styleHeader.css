@@ -2,7 +2,6 @@
     width: 100%;
     
     position: relative;
-    font-size: 12px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -86,8 +85,6 @@ h1{
     width: 24vw;
     height: 25vh;
     background-color: rgb(252, 210, 210);
-    /* color: #fff; */
-    /* text-align: center; */
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
@@ -95,7 +92,6 @@ h1{
     top: 100%;
     left: 50%;
     margin-left: -80px;
-    
     overflow-y: auto;
 }
 .closemessages {
@@ -144,6 +140,10 @@ h1{
     display: none;
 }
 
+#mbLogo_form{
+ display: none;
+}
+
 .search{
     display: flex;
     align-items: center;
@@ -185,65 +185,6 @@ h1{
     align-items: center;
 }
 
-@media only screen and (max-width: 600px){
-    .logo{
-        display: none;
-    }
-    .mobilelogo{
-        display: block;
-        width: 20%;
-        height: 100%;
-    }
-    .search{
-        justify-content: center;
-    }
-    .search__bar{
-        width: 80%;
-        margin-right: 0px;
-        border: 1px solid black;
-        border-radius: 0px;
-    }
-    .search__button{
-        margin-left: 0px;
-        width: 10%;
-        font-size: 6px;
-    }
-    #search__form{
-        display: flex;
-        justify-content: center;
-        margin-right: 0px;
-        width: 100%;
-        
-    }
-    .messageIcon{
-        margin: 0;
-    }
-    .cartIcon{
-        right: 10%;
-        border-left: 30px !important;
-    }
-    #or, #hi {
-        display: none !important;
-    }
-    
-    #slash{
-        display: block;
-        font-weight: bolder;
-        font-size: 20px;
-    }
-
-    .bla{
-        position: absolute;
-        width: 100%;
-        justify-content: center;
-    }
-/* 
-    nav{
-        
-    } */
-}
-
-
 .sign-in__popup{
     display: none; 
     position: fixed; 
@@ -273,6 +214,98 @@ h1{
 }
 
 
+@media only screen and (max-width: 600px){
+    .header{
+        font-size: unset;
+    }
+    #mbLogo_form{
+        margin-bottom: 0px;
+        width: 20%;
+        display: block;
+        z-index: 100;
+        
+    }
+    .logo{
+        display: none;
+    }
+    .mobilelogo{
+        display: block;
+        width: 70%;
+        height: 100%;
+    }
+    .search{
+        justify-content: center;
+    }
+    .search__bar{
+        width: 80%;
+        margin-right: 0px;
+        border: 1px solid black;
+        border-radius: 0px;
+    }
+    .search__button{
+        margin-left: 0px;
+        width: 10%;
+        font-size: 6px;
+    }
+    #search__form{
+        display: flex;
+        justify-content: center;
+        margin-right: 0px;
+        width: 100%;
+        
+    }
+    .messageIcon{
+        margin: 0;
+
+    }
+    .cartIcon{
+        right: 10%;
+        border-left: 30px !important;
+    }
+    #or, #hi {
+        display: none !important;
+    }
+    
+    #slash{
+        display: block;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .bla{
+        position: absolute;
+        width: 100%;
+        justify-content: center;
+    }
+
+    #hoverContainer{
+        padding-left: 0px;
+    }
+    #sell{
+        margin-right: 6%;
+    }
+    .messageIcon .mymessages{
+        position: absolute;
+        width: 100vw;
+        height: 80vh;
+        left: -70vw;
+        margin-left: 0px;
+    }
+
+    .hover_container:hover .hover_window{
+        left: 0px;
+        margin-left: -12vw;
+    }
+
+    .sign-in__container{
+        width: 280px;
+    }
+}
+
+
+
+
+
 .sign-in__container input[type = text], .sign-in__container input[type=password] {
     width: 100%;
     padding: 15px;
@@ -293,7 +326,6 @@ h1{
     border: none;
     cursor: pointer;
     width: 100%;
-    margin-bottom:10px;
     opacity: 0.8;
 }
 
@@ -304,7 +336,6 @@ h1{
     border: none;
     cursor: pointer;
     width: 100%;
-    margin-bottom:10px;
     opacity: 0.8;
 }
 

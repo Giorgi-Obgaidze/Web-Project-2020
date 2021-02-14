@@ -2,6 +2,7 @@
     <head>
         <title>Product Page</title>
         <link rel = "stylesheet" href="productPage.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
@@ -52,17 +53,15 @@
                     <!-- <div id="dot" style="text-align:center"></div> -->
                 </div>
                 <div class="other-info">
-                    <h1 id="product-name">RTX-3070 8GB</h1>
-                    <h4 id = "product_price">$599</h4>
+                    <h1 id="product-name"></h1>
+                    <h4 id = "product_price"></h4>
                     <a href="#" class="btn" id="buy_btn">Add To Cart</a>
                     <div id = "bid_container">
                         <input type="text" id="bid_field"/>
-                        <button>Place Bid</button>
+                        <button></button>
                     </div>
                     <h3>product Details</h3>
-                    <p id = "product_details">The GeForce RTX™ 3070 is powered by Ampere—NVIDIA's 2nd gen RTX architecture. Built with enhanced Ray
-                        Tracing Cores and Tensor Cores, new streaming multiprocessors,and high-speed G6 memory, it gives you
-                        the power you need to rip through the most demanding games.</p>
+                    <p id = "product_details"></p>
                 </div>
             </div>
             <div class="question_container">
